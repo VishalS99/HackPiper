@@ -1,3 +1,7 @@
+var express = require("express");
+var app = express();
+var session = require("express-session");
+var router = express.Router();
 var mysql = require("mysql");
 var cookieParser = require("cookie-parser");
 
@@ -8,10 +12,6 @@ var connection = mysql.createConnection({
   database: "piedpiper",
 });
 
-var express = require("express");
-var app = express();
-var session = require("express-session");
-var router = express.Router();
 app.use(cookieParser());
 app.use(
   session({

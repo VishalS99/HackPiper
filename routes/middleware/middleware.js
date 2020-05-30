@@ -1,6 +1,6 @@
 module.exports = {
   isAuth: (req, res, next) => {
-    if (req.cookie) return next();
+    if (req.cookies) return next();
     res.redirect("/login");
   },
 };
