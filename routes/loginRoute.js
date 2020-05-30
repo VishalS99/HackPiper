@@ -8,8 +8,8 @@ const passport = require('passport-local');
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Firedragon12',
-  database: 'my_db'
+  password: 'password',
+  database: 'piper'
 })
 connection.connect()
 connection.query('use database piper');
@@ -30,7 +30,7 @@ const auth = (user, pass) => {
 	connection.end()
 }
 
-passport.use('local-login', new LocalStrategy({
+passport.use(new LocalStrategy({
         usernameField : 'user',
         passwordField : 'pass',
     },
