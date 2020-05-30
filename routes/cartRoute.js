@@ -15,21 +15,6 @@ const connection = mysql.createConnection({
 connection.connect()
 connection.query('use  piper');
 
-const getCart = (uid) => {
-	const CARTIDFIND = "SELECT cartid from user where id =" + uid;
-	console.log(CARTIDFIND);
-	connection.query(CARTIDFIND, (err, rows) => {
-		if(err)	{
-			console.log(err);
-			return Promise.reject(err);
-		}
-		console.log("rows:", rows);
-		connection.end();
-		return Promise.resolve(rows);
-		// return {rows, fields};
-	});
-}; 
-
 /* returns items_list = [items_ids, ...] for userId  */
 router.get('/', (req, res) => {
 	const uid = req.query.userId;

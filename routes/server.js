@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 // const { shopRoute } = require('./shopRoute');
 const { cartRoute } = require('./cartRoute');
-// const { buyRoute } = require('./buyRoute');
+const { buyRoute } = require('./buyRoute');
 // const { loginRoute } = require('./loginRoute');
 // const { billingRoute } = require('./billingRoute');
 // const { devStatusRoute } = require('./devStatusRoute');
@@ -21,7 +21,7 @@ app.use(cookieParser());
 
 // app.use("/api/shop", shopRoute);
 app.use("/api/cart", cartRoute);
-// app.use("/api/buy", buyRoute);
+app.use("/api/buy", buyRoute);
 // app.use("/api/login", loginRoute);
 // app.use("/api/signup", signupRoute);
 // app.use("/api/dev/status", devStatusRoute);

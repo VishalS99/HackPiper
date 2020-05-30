@@ -14,18 +14,37 @@ const connection = mysql.createConnection({
 router.post('/', (req, res) => {
 	const itemId = req.query.itemId;
 	const uid = req.query.userId;
-	const insert_query = "INSERT INTO item_cart values (" + itemId + "," + uid ")";	
 	connection.connect()
 	connection.query('use  piper');
-	connection.query(insert_query, (err, res) => {
-		if(err)	{
-			res.status(500).json({err: err});
-			connection.close();
+
+	const CARTIDFIND = "SELECT cartid from user where id =" + uid;
+	let cartId;
+	connection.query(CARTIDFIND, (err, rows) => {
+		if(err || rows==null || rows==undefined || rows.length==0)	{
+			console.log(err);
+			connection.end();
+			res.status(500).json({error: err});
 			return;
-		}	
-		console.log("result added");
-		connection.close();
-		res.status(203).json({err: null});
+		}
+		const r = JSON.parse(JSON.stringify(rows));
+		const insert_query = "INSERT INTO item_cart values (" + itemId + "," + r[0].cartid + ")";	
+	
+		connection.query(insert_query, (err, result) => {
+			if(err)	{
+				res.status(500).json({err: err});
+				connection.end();
+				return;
+			}	
+			console.log("result added");
+			connection.end();
+			res.status(203).json({err: null});
+		});
 	});
+		
+	
 	
 });
+
+module.exports =  {
+    buyRoute: router
+};
