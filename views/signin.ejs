@@ -3,22 +3,60 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>CovidKart</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
     <h1 style="text-align: center;">Login</h1>
-    <div class="text-align:center">
-      <form action="/signin" method="POST">
-        <input type="text" name="user" placeholder="Name" /><br /><br />
-        <input type="email" name="email" placeholder="Email" /><br /><br />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-        /><br /><br />
-        <input type="text" name="billing" placeholder="Address" /><br /><br />
-        <input type="submit" />
-      </form>
+    <div class="d-flex justify-content-center align-items-center container">
+      <div class="text-align:center">
+        <form action="/signin" method="POST">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Name</label>
+            <input
+              type="text"
+              name="user"
+              placeholder="Enter Name"
+              class="form-control"
+            /><br /><br />
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input
+              type="email"
+              name="email"
+              class="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+              placeholder="Enter email"
+            /><br /><br />
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              class="form-control"
+            />
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Address</label>
+            <input
+              type="text"
+              class="form-control"
+              name="billing"
+              placeholder="EnterAddress"
+            /><br /><br />
+          </div>
+          <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+      </div>
     </div>
   </body>
 </html>
