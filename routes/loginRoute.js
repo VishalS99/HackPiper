@@ -1,112 +1,49 @@
-const express = require('express');
-const router = express.Router();
-const path = require('path');
-const fs = require('fs');
-const mysql = require('mysql');
-const passport = require('passport-local');
+var mysql = require("mysql");
+var cookieParser = require("cookie-parser");
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'password',
-  database: 'piper'
-})
-connection.connect()
-connection.query('use database piper');
-
-	
-const auth = (user, pass) => {
-	connection.query('SELECT pass from piper_auth where user=\''+user + '\'', function (err, rows, fields) {
-	  if (err) throw err
-
-	  	if(rows.length == 0)
-	  		return false;
-	  	else if(rows[0].pass != pass)
-	  		return false;
-	  	else 
-	  		return true;
-	});
-
-	connection.end()
-}
-
-passport.use(new LocalStrategy({
-        usernameField : 'user',
-        passwordField : 'pass',
-    },
-    function(user, pass, done) {
-        connection.query("SELECT pass FROM piper_auth WHERE user = '" + user + "'", (err,rows) => {
-			if (err)
-                return done(err);
-			if (!rows.length) {
-                return done(null, false); 
-            } 
-			
-			if (!( rows[0].password == password))
-                return done(null, false); 
-			
-            // all is well, return successful user
-            return done(null, rows[0]);			
-	});
-	
-}));
-
-router.post('/', 
-	passport.authenticate('local', { failureRedirect: '/login' }),
- 	function(req, res) {
-    	res.redirect('/');
+var connection = mysql.createConnection({
+  host: "localhost",
+  user: "vishal",
+  password: "",
+  database: "piedpiper",
 });
 
-  //   passport.serializeUser(function(user, done) {
-		// done(null, user.id);
-  //   });
+var express = require("express");
+var app = express();
+var session = require("express-session");
+var router = express.Router();
+app.use(
+  session({
+    secret: "secret",
+    // resave: true,
+    // saveUninitialized: true,
+  })
+);
 
-  //   passport.deserializeUser(function(id, done) {
-		// connection.query("select * from piper_auth where user = "+ id, function(err,rows){	
-		// 	done(err, rows[0]);
-		// });
-  //   });
-	
-    
-
-  //    passport.use('local-signup', new LocalStrategy({
-  //       // by default, local strategy uses username and password, we will override with email
-  //       usernameField : 'user',
-  //       passwordField : 'pass',
-  //       passReqToCallback : true // allows us to pass back the entire request to the callback
-  //   },
-  //   function(req, user, pass, done) {
-
-  //   	connection.query("select pass from piper_auth where user=" + user, (err, rows) => {
-  //   		if(err)	{
-  //   			return done(err);
-  //   		}
-  //   	});
-
-		// connection.query("select * from users where email = '"+email+"'",function(err,rows){
-		// 	console.log(rows);
-		// 	console.log("above row object");
-		// 	if (err)
-  //               return done(err);
-		// 	 if (rows.length) {
-  //               return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
-  //           } else {
-
-		// 		// if there is no user with that email
-  //               // create the user
-  //               var newUserMysql = new Object();
-				
-		// 		newUserMysql.email    = email;
-  //               newUserMysql.password = password; // use the generateHash function in our user model
-			
-		// 		var insertQuery = "INSERT INTO users ( email, password ) values ('" + email +"','"+ password +"')";
-		// 			console.log(insertQuery);
-		// 		connection.query(insertQuery,function(err,rows){
-		// 		newUserMysql.id = rows.insertId;
-				
-		// 		return done(null, newUserMysql);
-		// 		});	
-  //           }	
-		// });
-    // }));
-
+router.post("/auth", function (request, response) {
+  var username = request.body.user;
+  var password = request.body.pass;
+  console.log(username, password);
+  if (username && password) {
+    connection.query(
+      "SELECT * FROM users WHERE user = ? AND pass = ?",
+      [username, password],
+      function (error, results, fields) {
+        if (results.length > 0) {
+          var sess = request.session;
+          // sess.loggedin = true;
+          console.log(request.session);
+          sess.user = username;
+          response.redirect("/home");
+        } else {
+          response.send("Incorrect Username and/or Password!");
+        }
+        response.end();
+      }
+    );
+  } else {
+    response.send("Please enter Username and Password!");
+    response.end();
+  }
+});
+module.exports = router;
