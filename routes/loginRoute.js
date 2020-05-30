@@ -5,12 +5,7 @@ var router = express.Router();
 var mysql = require("mysql");
 var cookieParser = require("cookie-parser");
 
-var connection = mysql.createConnection({
-  host: "localhost",
-  user: "vishal",
-  password: "vishal1999",
-  database: "piedpiper",
-});
+const { connection } = require("./sqlConfig");
 
 app.use(cookieParser());
 app.use(
@@ -30,22 +25,36 @@ router.get("/signin", (req, res) => {
 });
 
 router.post("/signin", (req, res) => {
-  var username = req.body.user;
+  var name = req.body.user;
   var password = req.body.password;
-  console.log(username);
+  var email = req.body.email;
+  var bill = req.body.billing;
+  console.log(name, password, email);
   // var name = req.body.name;
-  if (username && password) {
+  if (email && password && name) {
+    console.log("dfj");
     connection.query(
-      "SELECT * FROM users WHERE user = ?",
-      [username],
+      "SELECT * FROM User WHERE email = ?",
+      [email],
       (err, user) => {
+        console.log("djk");
+        if (err) throw err;
+        console.log(user);
         if (user.ID) {
           res.send("User already exists");
         } else {
           let UUID = Math.floor(Math.random() * 100);
+          let CUID = Math.floor(Math.random() * 100);
           connection.query(
-            "INSERT INTO users VALUES(?,?,?)",
-            [UUID, username, password],
+            "INSERT INTO carts VALUES (?)",
+            [CUID],
+            (err, cart) => {
+              if (err) throw err;
+            }
+          );
+          connection.query(
+            "INSERT INTO User VALUES(?,?,?,?,?,?)",
+            [UUID, name, email, password, CUID, bill],
             (err, user) => {
               if (err) throw err;
               // console.log(req);
@@ -64,29 +73,29 @@ router.post("/signin", (req, res) => {
 });
 
 router.post("/login", function (req, res) {
-  var username = req.body.user;
+  var email = req.body.email;
   var password = req.body.pass;
-  console.log(username, password);
-  if (username && password) {
+  console.log(email, password);
+  if (email && password) {
     connection.query(
-      "SELECT * FROM users WHERE user = ? AND pass = ?",
-      [username, password],
+      "SELECT * FROM User WHERE email = ? AND password = ?",
+      [email, password],
       function (error, results, fields) {
         if (results.length > 0) {
           // sess.loggedin = true;
           // console.log(req.session);
           // sess.user = username;
           res.cookie("user", results);
-          response.redirect("/home");
+          res.redirect("/home");
         } else {
-          response.send("Incorrect Username and/or Password!");
+          res.send("Incorrect Email and/or Password!");
         }
-        response.end();
+        res.end();
       }
     );
   } else {
-    response.send("Please enter Username and Password!");
-    response.end();
+    res.send("Please enter Email and Password!");
+    res.end();
   }
 });
 module.exports = router;

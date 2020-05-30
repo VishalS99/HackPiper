@@ -7,10 +7,10 @@ var bodyParser = require("body-parser");
 
 var indexRouter = require("./routes/index");
 var authRouter = require("./routes/loginRoute");
-var { cartRoute } = require('./routes/cartRoute');
-var { buyRoute } = require('./routes/buyRoute');
-var { checkoutRoute } = require('./routes/checkoutRoute');
-
+var { cartRoute } = require("./routes/cartRoute");
+var { buyRoute } = require("./routes/buyRoute");
+var { checkoutRoute } = require("./routes/checkoutRoute");
+var shopRoute = require("./routes/shopRoute");
 // var usersRouter = require("./routes/users");
 
 var app = express();
@@ -27,10 +27,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/home", indexRouter);
-app.use("/user", authRouter);
+app.use("/", authRouter);
 app.use("/checkout", checkoutRoute);
 app.use("/cart", cartRoute);
 app.use("/buy", buyRoute);
+app.use("/shop", shopRoute);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
