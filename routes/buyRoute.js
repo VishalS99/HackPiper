@@ -4,7 +4,6 @@ const path = require('path');
 const fs = require('fs');
 const ejs = require('ejs');
 const mysql = require('mysql');
-// const passport = require('passport-local');
 
 const connection = mysql.createConnection({
   host: 'localhost',
