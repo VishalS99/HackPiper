@@ -9,6 +9,7 @@ var indexRouter = require("./routes/index");
 var authRouter = require("./routes/loginRoute");
 var { cartRoute } = require('./routes/cartRoute');
 var { buyRoute } = require('./routes/buyRoute');
+var { checkoutRoute } = require('./routes/checkoutRoute');
 
 
 // var usersRouter = require("./routes/users");
@@ -28,6 +29,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/home", indexRouter);
 app.use("/user", authRouter);
+app.use("/checkout", checkoutRoute);
 app.use("/cart", cartRoute);
 app.use("/buy", buyRoute);
 

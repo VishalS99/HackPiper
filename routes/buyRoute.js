@@ -3,14 +3,8 @@ const router = express.Router();
 const path = require('path');
 const fs = require('fs');
 const ejs = require('ejs');
-const mysql = require('mysql');
+const { connection } = require('./sqlConfig');
 
-// const connection = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'root',
-//   password: 'password',
-//   database: 'piper'
-// })
 router.post('/', (req, res) => {
 	const itemId = req.query.itemId;
 	const uid = req.query.userId;
@@ -35,9 +29,6 @@ router.post('/', (req, res) => {
 			res.status(203).json({err: null});
 		});
 	});
-		
-	
-	
 });
 
 module.exports =  {
