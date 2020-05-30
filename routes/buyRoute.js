@@ -5,24 +5,21 @@ const fs = require('fs');
 const ejs = require('ejs');
 const mysql = require('mysql');
 
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'password',
-  database: 'piper'
-})
+// const connection = mysql.createConnection({
+//   host: 'localhost',
+//   user: 'root',
+//   password: 'password',
+//   database: 'piper'
+// })
 router.post('/', (req, res) => {
 	const itemId = req.query.itemId;
 	const uid = req.query.userId;
-	connection.connect()
-	connection.query('use  piper');
 
 	const CARTIDFIND = "SELECT cartid from user where id =" + uid;
 	let cartId;
 	connection.query(CARTIDFIND, (err, rows) => {
 		if(err || rows==null || rows==undefined || rows.length==0)	{
 			console.log(err);
-			connection.end();
 			res.status(500).json({error: err});
 			return;
 		}
@@ -32,11 +29,9 @@ router.post('/', (req, res) => {
 		connection.query(insert_query, (err, result) => {
 			if(err)	{
 				res.status(500).json({err: err});
-				connection.end();
 				return;
 			}	
 			console.log("result added");
-			connection.end();
 			res.status(203).json({err: null});
 		});
 	});

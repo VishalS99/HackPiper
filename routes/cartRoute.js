@@ -4,7 +4,6 @@ const path = require('path');
 const fs = require('fs');
 const ejs = require('ejs');
 const mysql = require('mysql');
-// const passport = require('passport-local');
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -12,8 +11,6 @@ const connection = mysql.createConnection({
   password: 'password',
   database: 'piper'
 })
-connection.connect()
-connection.query('use  piper');
 
 /* returns items_list = [items_ids, ...] for userId  */
 router.get('/', (req, res) => {
@@ -21,11 +18,9 @@ router.get('/', (req, res) => {
 	const CARTIDFIND = "SELECT cartid from user where id =" + uid;
 	let items_list = [];
 	console.log(CARTIDFIND);
-
 	connection.query(CARTIDFIND, (err, rows) => {
 		if(err || rows==null || rows==undefined || rows.length==0)	{
 			console.log(err);
-			connection.end();
 			res.status(500).json({error: err});
 			return;
 		}
@@ -40,21 +35,13 @@ router.get('/', (req, res) => {
 		connection.query(ITEMS_FIND, (e, r) => {
 			if(e || r.length == 0)	{
 				res.status(404).json({e: e, lines: r.length});
-				connection.end();
 				return;
 			}
 			rows = JSON.parse(JSON.stringify(r));
 			items_list = rows.map(i => i.item);
-			// const price_list = [];
-			connection.end();	
 			res.status(200).json({items_list});
 		});
-		
-		
-		// return {rows, fields};
 	});
-	
-    
 });
 
 module.exports =  {
