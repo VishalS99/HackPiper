@@ -38,4 +38,3 @@ function algo(id,distance,zone,category){
         alert("Order booked");
     }
 }
-    
