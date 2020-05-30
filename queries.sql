@@ -63,16 +63,10 @@ values
 insert into User
     (id,name,email,password,cartid,billing_address)
 values
-    (1, "User 1", "user1@gmail.com", "pass1", 1, "loc1"),
-    (2, "User 2", "user2@gmail.com", "pass2", 2, "loc2"),
-    (3, "User 3", "user3@gmail.com", "pass3", 3, "loc3"),
-    (4, "User 4", "user4@gmail.com", "pass4", 4, "loc4"),
-    (5, "User 5", "user5@gmail.com", "pass5", 5, "loc5"),
-    (6, "User 6", "user6@gmail.com", "pass6", 6, "loc6"),
-    (7, "User 7", "user7@gmail.com", "pass7", 7, "loc7"),
-    (8, "User 8", "user8@gmail.com", "pass8", 8, "loc8"),
-    (9, "User 9", "user9@gmail.com", "pass9", 9, "loc9"),
-    (10, "User 10", "user10@gmail.com", "pass10", 10, "loc10");
+    (1, "User 1", "user1@gmail.com", "pass1", 1, "Mumbai"),
+    (2, "User 2", "user2@gmail.com", "pass2", 2, "Bhopal"),
+    (3, "User 3", "user3@gmail.com", "pass3", 3, "Delhi"),
+    (4, "User 4", "user4@gmail.com", "pass4", 4, "Pune"),
 
 
 insert into items
